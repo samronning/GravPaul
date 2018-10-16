@@ -1,0 +1,25 @@
+Version: Beta0.1
+Author: Sam Ronning
+Date: 10/16/2018
+Time: 1:05PM
+
+// Gameplay Mechanics
+++Change gravity with gun
+**Fixed shooting while sliding on wall
+**Fixed shooting corner resulting in wrong direction
+**Paul can only shoot while on ground
+**Gun has fireRate of 1 second
+
+// Sound
+++ Audio Controller Script and gameObject
+++ Music background loops
+
+// Visuals
+++ Paul sprite
+++ Tilemaps
+++ all character types flip with gravity
+
+[TODO SOON]
+add animations for paul
+add animations for gun
+add sounds of gun
