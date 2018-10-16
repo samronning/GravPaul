@@ -39186,7 +39186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1223018417}
   - component: {fileID: 1223018416}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39231,7 +39231,7 @@ GameObject:
   - component: {fileID: 1918662811}
   - component: {fileID: 1918662813}
   - component: {fileID: 1918662814}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Paul
   m_TagString: Untagged
   m_Icon: {fileID: 0}
