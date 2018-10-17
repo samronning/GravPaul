@@ -7,11 +7,14 @@ public class GravOrbContr : MonoBehaviour {
 
     [SerializeField]
     private float orbSpeed = 10f;
+    [SerializeField]
+    private float decayTime = 2f;
 
     public void LaunchGrav(GameObject gravBall, Vector2 direction)
     {
         rb = gravBall.GetComponent<Rigidbody2D>();
         rb.velocity = direction*orbSpeed;
+        Destroy(gravBall, decayTime);
     }
 
     void OnCollisionEnter2D (Collision2D collision)

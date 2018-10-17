@@ -86,7 +86,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.45}
+  m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
 --- !u!114 &114945320992526912
 MonoBehaviour:
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbSpeed: 15
+  decayTime: 2
 --- !u!212 &212058296263944232
 SpriteRenderer:
   m_ObjectHideFlags: 1

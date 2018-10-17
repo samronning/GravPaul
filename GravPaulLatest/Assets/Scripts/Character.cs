@@ -20,7 +20,7 @@ public abstract class Character : MonoBehaviour {
     {
         groundSurface = LayerMask.NameToLayer("Ground");
     }
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         Move();
         Vector2 A = characterDrawOverlap()[0];

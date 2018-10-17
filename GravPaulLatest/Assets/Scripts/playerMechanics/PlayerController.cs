@@ -18,9 +18,9 @@ public class PlayerController : Character {
 
     private GameObject gravBall;
 
-    protected override void Update () {
+    protected override void FixedUpdate () {
         GetInput();
-        base.Update();
+        base.FixedUpdate();
         shootGrav();
     }
 
