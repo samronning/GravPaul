@@ -16,8 +16,14 @@ public abstract class Character : MonoBehaviour {
 
     private Vector2 gravChangeDir;
 
+    Animator anim;
+
+    Rigidbody2D rb;
+
     void Awake()
     {
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         groundSurface = LayerMask.NameToLayer("Ground");
     }
     protected virtual void FixedUpdate()
@@ -32,6 +38,7 @@ public abstract class Character : MonoBehaviour {
     public void Move()
     {
         transform.Translate(direction * speed * Time.deltaTime);
+        Animate();
         Flip();
     }
 
@@ -117,5 +124,41 @@ public abstract class Character : MonoBehaviour {
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
+    }
+
+    void Animate()
+    {
+        if (direction.x != 0 && rb.velocity.y == 0)
+        {
+            anim.SetBool("isWalking", true);
+        }
+        if (direction.x == 0)
+        {
+            anim.SetBool("isWalking", false);
+        }
+        if (Physics2D.gravity.y != 0)
+        {
+            if (rb.velocity.y != 0)
+            {
+                anim.SetBool("isFalling", true);
+            }
+            if (rb.velocity.y == 0)
+            {
+                anim.SetBool("isFalling", false);
+            }
+        }
+
+        if (Physics2D.gravity.x != 0)
+        {
+            if (rb.velocity.x != 0)
+            {
+                anim.SetBool("isFalling", true);
+            }
+            if (rb.velocity.x == 0)
+            {
+                anim.SetBool("isFalling", false);
+            }
+        }
+
     }
 }

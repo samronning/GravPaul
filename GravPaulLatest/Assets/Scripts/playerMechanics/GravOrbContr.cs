@@ -10,15 +10,24 @@ public class GravOrbContr : MonoBehaviour {
     [SerializeField]
     private float decayTime = 2f;
 
+    Animator gravOrbAnim;
+
+    void Start () {
+        gravOrbAnim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+    }
     public void LaunchGrav(GameObject gravBall, Vector2 direction)
     {
         rb = gravBall.GetComponent<Rigidbody2D>();
         rb.velocity = direction*orbSpeed;
+        gravBall.transform.eulerAngles = new Vector3(0, 0, 0);
+        Flip(gravBall);
         Destroy(gravBall, decayTime);
     }
 
     void OnCollisionEnter2D (Collision2D collision)
     {
+        gravOrbAnim.SetBool("isExploding", true);
         if (collision.gameObject.tag == "Grav")
         {
             cameraShake.shouldShake = true;
@@ -52,6 +61,29 @@ public class GravOrbContr : MonoBehaviour {
                 }
             }
         }
-        Destroy(gameObject);
+        Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(0, 0);
+        FindObjectOfType<audioManager>().Play("gravity_hit_wall");
+        Destroy(gameObject, 0.3f);
+    }
+
+    void Flip(GameObject gravBall)
+    {
+        if (rb.velocity.x < 0)
+          {
+            gravBall.transform.eulerAngles += new Vector3(0, 0, 180);
+          }
+        if (rb.velocity.x > 0)
+        {
+            gravBall.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        if (rb.velocity.y < 0)
+        {
+            gravBall.transform.eulerAngles = new Vector3(0, 0, 90);
+        }
+        if (rb.velocity.y > 0)
+        {
+            gravBall.transform.eulerAngles = new Vector3(0, 0, -90);
+        }
     }
 }
