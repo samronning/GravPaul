@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Character {
 
@@ -30,7 +31,30 @@ public class PlayerController : Character {
             Animate();
         }
         base.FixedUpdate();
+        groundCheck();
         shootGrav();
+    }
+
+    protected override void groundCheck()
+    {
+        Vector2 A = characterDrawOverlap()[0];
+        Vector2 B = characterDrawOverlap()[1];
+        Collider2D collisionGround = (Physics2D.OverlapArea(A, B, 1 << groundSurface));
+        Collider2D collisionSpike = (Physics2D.OverlapArea(A, B, 1 << spikeSurface));
+
+        if (collisionGround == null)
+        {
+            isGrounded = false;
+        }
+        else
+        {
+            isGrounded = true;
+        }
+
+        if (collisionSpike != null)
+        {
+            die();
+        }
     }
 
     private void GetInput()
@@ -156,5 +180,10 @@ public class PlayerController : Character {
             playeranim.SetBool("isFiringRight", false);
             playeranim.SetBool("isFiringUp", false);
         }
+    }
+
+    void die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

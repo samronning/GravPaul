@@ -7,8 +7,9 @@ public abstract class Character : MonoBehaviour {
     [SerializeField]
     private float speed;
 
-    //Ground Surfaces
-    LayerMask groundSurface;
+    //Surfaces
+    protected LayerMask groundSurface;
+    protected LayerMask spikeSurface;
 
     protected bool isGrounded = false;
 
@@ -24,14 +25,13 @@ public abstract class Character : MonoBehaviour {
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
         groundSurface = LayerMask.NameToLayer("Ground");
+        spikeSurface = LayerMask.NameToLayer("Spikes");
     }
     protected virtual void FixedUpdate()
     {
         Move();
-        Vector2 A = characterDrawOverlap()[0];
-        Vector2 B = characterDrawOverlap()[1];
-        groundCheck(A , B);
         Flip();
     }
 
@@ -42,8 +42,10 @@ public abstract class Character : MonoBehaviour {
         Flip();
     }
 
-    void groundCheck(Vector2 A, Vector2 B)
+    protected virtual void groundCheck()
     {
+        Vector2 A = characterDrawOverlap()[0];
+        Vector2 B = characterDrawOverlap()[1];
         Collider2D collision = (Physics2D.OverlapArea(A, B, 1 << groundSurface));
 
         if (collision == null)
@@ -56,7 +58,7 @@ public abstract class Character : MonoBehaviour {
         }
     }
 
-    Vector2[] characterDrawOverlap ()
+    protected virtual Vector2[] characterDrawOverlap ()
     {
         //Setting up overlap draw
         Vector2 topLeft = new Vector2(transform.position.x - 0.20f, transform.position.y + 0.6f);
