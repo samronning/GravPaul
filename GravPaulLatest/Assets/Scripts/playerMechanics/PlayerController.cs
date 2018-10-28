@@ -20,8 +20,14 @@ public class PlayerController : Character {
     private GameObject gravBall;
 
     bool isFiring = false;
+    bool firstTime;
 
     Animator playeranim;
+
+    void Start()
+    {
+        firstTime = true;
+    }
 
     protected override void FixedUpdate () {
         playeranim = GetComponent<Animator>();
@@ -32,6 +38,7 @@ public class PlayerController : Character {
         }
         base.FixedUpdate();
         groundCheck();
+        wallDirection = base.wallCheck();
         shootGrav();
     }
 
@@ -51,9 +58,11 @@ public class PlayerController : Character {
             isGrounded = true;
         }
 
-        if (collisionSpike != null)
+        if (collisionSpike != null && firstTime == true)
         {
-            die();
+            FindObjectOfType<audioManager>().Play("spikeDeath");
+            StartCoroutine(Die());
+            firstTime = false;
         }
     }
 
@@ -64,41 +73,41 @@ public class PlayerController : Character {
         direction = Vector2.zero;
 
         //GravDown
-        if (Input.GetKey(KeyCode.A) && Physics2D.gravity.y < 0)
+        if (Input.GetKey(KeyCode.A) && Physics2D.gravity.y < 0 && wallDirection != Vector2.left)
         {
             direction += Vector2.left;
         }
-        if (Input.GetKey(KeyCode.D) && Physics2D.gravity.y < 0)
+        if (Input.GetKey(KeyCode.D) && Physics2D.gravity.y < 0 && wallDirection != Vector2.right)
         {
             direction += Vector2.right;
         }
 
         //GravUp
-        if (Input.GetKey(KeyCode.A) && Physics2D.gravity.y > 0)
+        if (Input.GetKey(KeyCode.A) && Physics2D.gravity.y > 0 && wallDirection != Vector2.left)
         {
             direction += Vector2.right;
         }
-        if (Input.GetKey(KeyCode.D) && Physics2D.gravity.y > 0)
+        if (Input.GetKey(KeyCode.D) && Physics2D.gravity.y > 0 && wallDirection != Vector2.right)
         {
             direction += Vector2.left;
         }
 
         //GravLeft
-        if (Input.GetKey(KeyCode.W) && Physics2D.gravity.x < 0)
+        if (Input.GetKey(KeyCode.W) && Physics2D.gravity.x < 0 && wallDirection != Vector2.up)
         {
             direction += Vector2.left;
         }
-        if (Input.GetKey(KeyCode.S) && Physics2D.gravity.x < 0)
+        if (Input.GetKey(KeyCode.S) && Physics2D.gravity.x < 0 && wallDirection != Vector2.down)
         {
             direction += Vector2.right;
         }
 
         //GravRight
-        if (Input.GetKey(KeyCode.W) && Physics2D.gravity.x > 0)
+        if (Input.GetKey(KeyCode.W) && Physics2D.gravity.x > 0 && wallDirection != Vector2.up)
         {
             direction += Vector2.right;
         }
-        if (Input.GetKey(KeyCode.S) && Physics2D.gravity.x > 0)
+        if (Input.GetKey(KeyCode.S) && Physics2D.gravity.x > 0 && wallDirection != Vector2.down)
         {
             direction += Vector2.left;
         }
@@ -182,8 +191,12 @@ public class PlayerController : Character {
         }
     }
 
-    void die()
+    IEnumerator Die()
     {
+        isFiring = true;
+        direction = Vector2.zero;
+        float fadeTime = GameObject.Find("GameManager").GetComponent<Fading>().beginFade(1);
+        yield return new WaitForSeconds(fadeTime);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -10,10 +10,12 @@ public abstract class Character : MonoBehaviour {
     //Surfaces
     protected LayerMask groundSurface;
     protected LayerMask spikeSurface;
+    protected LayerMask wallSurface;
 
     protected bool isGrounded = false;
 
     protected Vector2 direction;
+    protected Vector2 wallDirection;
 
     private Vector2 gravChangeDir;
 
@@ -28,7 +30,9 @@ public abstract class Character : MonoBehaviour {
 
         groundSurface = LayerMask.NameToLayer("Ground");
         spikeSurface = LayerMask.NameToLayer("Spikes");
+        wallSurface = (1 << groundSurface) | (1 << spikeSurface);
     }
+
     protected virtual void FixedUpdate()
     {
         Move();
@@ -46,7 +50,7 @@ public abstract class Character : MonoBehaviour {
     {
         Vector2 A = characterDrawOverlap()[0];
         Vector2 B = characterDrawOverlap()[1];
-        Collider2D collision = (Physics2D.OverlapArea(A, B, 1 << groundSurface));
+        Collider2D collision = (Physics2D.OverlapArea(A, B, (1 << groundSurface)));
 
         if (collision == null)
         {
@@ -56,6 +60,36 @@ public abstract class Character : MonoBehaviour {
         else {
             isGrounded = true;
         }
+    }
+
+    protected virtual Vector2 wallCheck()
+    {
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, 0.55f, wallSurface);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, 0.55f, wallSurface);
+        RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, 0.55f, wallSurface);
+        RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, 0.55f, wallSurface);
+
+        if (hitRight)
+        {
+            direction = Vector2.zero;
+            return Vector2.right;
+        }
+        if (hitLeft)
+        {
+            direction = Vector2.zero;
+            return Vector2.left;
+        }
+        if (hitUp)
+        {
+            direction = Vector2.zero;
+            return Vector2.up;
+        }
+        if (hitDown)
+        {
+            direction = Vector2.zero;
+            return Vector2.down;
+        }
+        return Vector2.zero;
     }
 
     protected virtual Vector2[] characterDrawOverlap ()
@@ -80,19 +114,19 @@ public abstract class Character : MonoBehaviour {
         //Left
         if (Physics2D.gravity.x < 0)
         {
-            Vector2[] arrPoints = { altTopLeft, altBottomLeft };
+            Vector2[] arrPoints = { altTopLeft, altBottomLeft};
             return arrPoints;
         }
         //Up
         if (Physics2D.gravity.y > 0)
         {
-            Vector2[] arrPoints = { topLeft, topRight };
+            Vector2[] arrPoints = { topLeft, topRight};
             return arrPoints;
         }
         //Down
         if (Physics2D.gravity.y < 0)
         {
-            Vector2[] arrPoints = { bottomLeft, bottomRight };
+            Vector2[] arrPoints = { bottomLeft, bottomRight};
             return arrPoints;
         }
         else
@@ -162,5 +196,15 @@ public abstract class Character : MonoBehaviour {
             }
         }
 
+    }
+
+    void OnDrawGizmos()
+    {
+        Vector2 center = new Vector2(transform.position.x, transform.position.y);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(center, Vector2.right * 0.6f);
+        Gizmos.DrawRay(center, Vector2.left * 0.6f);
+        Gizmos.DrawRay(center, (Vector2.right + (Vector2.down * 1.5f)) * 0.6f);
+        Gizmos.DrawRay(center, (Vector2.left + (Vector2.down * 1.5f)) * 0.6f);
     }
 }
