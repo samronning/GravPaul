@@ -11,8 +11,13 @@ public class GameContr : MonoBehaviour {
 	void Awake () {
         Physics2D.gravity = gravityCoef;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void OnEnable()
+    {
+        FindObjectOfType<audioManager>().reviveMusic("level_1_music");
+    }
+
+    // Update is called once per frame
+    void Update () {
 	}
 }

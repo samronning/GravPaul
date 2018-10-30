@@ -193,8 +193,13 @@ public class PlayerController : Character {
 
     IEnumerator Die()
     {
+        
         isFiring = true;
         direction = Vector2.zero;
+
+        float killTime = FindObjectOfType<audioManager>().killMusic("level_1_music");
+        yield return new WaitForSeconds(killTime);
+
         float fadeTime = GameObject.Find("GameManager").GetComponent<Fading>().beginFade(1);
         yield return new WaitForSeconds(fadeTime);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
