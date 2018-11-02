@@ -11,6 +11,8 @@ public abstract class Character : MonoBehaviour {
     protected LayerMask groundSurface;
     protected LayerMask spikeSurface;
     protected LayerMask wallSurface;
+    protected LayerMask platform;
+    protected LayerMask allGrounds;
 
     protected bool isGrounded = false;
 
@@ -21,7 +23,7 @@ public abstract class Character : MonoBehaviour {
 
     Animator anim;
 
-    Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
     void Awake()
     {
@@ -30,6 +32,8 @@ public abstract class Character : MonoBehaviour {
 
         groundSurface = LayerMask.NameToLayer("Ground");
         spikeSurface = LayerMask.NameToLayer("Spikes");
+        platform = LayerMask.NameToLayer("Platform");
+        allGrounds = (1 << groundSurface) | (1 << platform);
         wallSurface = (1 << groundSurface) | (1 << spikeSurface);
     }
 
@@ -50,7 +54,8 @@ public abstract class Character : MonoBehaviour {
     {
         Vector2 A = characterDrawOverlap()[0];
         Vector2 B = characterDrawOverlap()[1];
-        Collider2D collision = (Physics2D.OverlapArea(A, B, (1 << groundSurface)));
+        Collider2D collision = (Physics2D.OverlapArea(A, B, (allGrounds)));
+        Collider2D collisionPlatform = (Physics2D.OverlapArea(A, B, (1 << platform)));
 
         if (collision == null)
         {
@@ -59,6 +64,16 @@ public abstract class Character : MonoBehaviour {
         }
         else {
             isGrounded = true;
+        }
+        if (collisionPlatform == null)
+        {
+            transform.parent = null;
+        }
+        if (collisionPlatform)
+        {
+            transform.SetParent(collisionPlatform.transform);
+            Rigidbody2D rb2 = collisionPlatform.GetComponent<Rigidbody2D>();
+            rb.velocity = rb2.velocity;
         }
     }
 
@@ -172,28 +187,13 @@ public abstract class Character : MonoBehaviour {
         {
             anim.SetBool("isWalking", false);
         }
-        if (Physics2D.gravity.y != 0)
+        if (isGrounded)
         {
-            if (rb.velocity.y != 0)
-            {
-                anim.SetBool("isFalling", true);
-            }
-            if (rb.velocity.y == 0)
-            {
-                anim.SetBool("isFalling", false);
-            }
+            anim.SetBool("isFalling", false);
         }
-
-        if (Physics2D.gravity.x != 0)
+        if (!isGrounded)
         {
-            if (rb.velocity.x != 0)
-            {
-                anim.SetBool("isFalling", true);
-            }
-            if (rb.velocity.x == 0)
-            {
-                anim.SetBool("isFalling", false);
-            }
+            anim.SetBool("isFalling", true);
         }
 
     }

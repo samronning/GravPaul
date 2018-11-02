@@ -46,18 +46,9 @@ public class PlayerController : Character {
     {
         Vector2 A = characterDrawOverlap()[0];
         Vector2 B = characterDrawOverlap()[1];
-        Collider2D collisionGround = (Physics2D.OverlapArea(A, B, 1 << groundSurface));
         Collider2D collisionSpike = (Physics2D.OverlapArea(A, B, 1 << spikeSurface));
 
-        if (collisionGround == null)
-        {
-            isGrounded = false;
-        }
-        else
-        {
-            isGrounded = true;
-        }
-
+        base.groundCheck();
         if (collisionSpike != null && firstTime == true)
         {
             FindObjectOfType<audioManager>().Play("spikeDeath");
