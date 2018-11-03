@@ -55818,11 +55818,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4841087315152480, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -15.03
+      value: -14.5
       objectReference: {fileID: 0}
     - target: {fileID: 4841087315152480, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.84
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4841087315152480, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -55851,7 +55851,42 @@ Prefab:
     - target: {fileID: 114427587480507264, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
         type: 2}
       propertyPath: startDirection.y
-      value: 0.5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 50936307231203056, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
+        type: 2}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114427587480507264, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
+        type: 2}
+      propertyPath: startAcceleration.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114427587480507264, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
+        type: 2}
+      propertyPath: distance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114427587480507264, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
+        type: 2}
+      propertyPath: direction_in.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114427587480507264, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
+        type: 2}
+      propertyPath: max_speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114427587480507264, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
+        type: 2}
+      propertyPath: direction_in.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114427587480507264, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c,
+        type: 2}
+      propertyPath: acceleration_in
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ce297707e3e0524cbe8f3eb1fb3f24c, type: 2}
@@ -85326,7 +85361,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
