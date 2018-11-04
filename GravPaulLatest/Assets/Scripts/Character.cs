@@ -65,15 +65,9 @@ public abstract class Character : MonoBehaviour {
         else {
             isGrounded = true;
         }
-        if (collisionPlatform == null)
-        {
-            transform.parent = null;
-        }
         if (collisionPlatform)
         {
             transform.SetParent(collision.transform);
-            /*Rigidbody2D rb2 = collisionPlatform.GetComponent<Rigidbody2D>();
-            rb.velocity = rb2.velocity;*/
         }
     }
 

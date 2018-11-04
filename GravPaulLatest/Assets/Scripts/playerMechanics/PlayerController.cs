@@ -30,6 +30,7 @@ public class PlayerController : Character {
     }
 
     protected override void FixedUpdate () {
+        transform.parent = null;
         playeranim = GetComponent<Animator>();
         if (!isFiring)
         {
