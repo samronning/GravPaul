@@ -71,9 +71,9 @@ public abstract class Character : MonoBehaviour {
         }
         if (collisionPlatform)
         {
-            transform.SetParent(collisionPlatform.transform);
-            Rigidbody2D rb2 = collisionPlatform.GetComponent<Rigidbody2D>();
-            rb.velocity = rb2.velocity;
+            transform.SetParent(collision.transform);
+            /*Rigidbody2D rb2 = collisionPlatform.GetComponent<Rigidbody2D>();
+            rb.velocity = rb2.velocity;*/
         }
     }
 
